@@ -21,14 +21,11 @@ jobs:
         with:
           enable-cache: false
 
-      - name: Setup Typst
-        uses: typst-community/setup-typst@v5
-
       - name: Install Chromium for Playwright
         run: uv run --with playwright python -m playwright install --with-deps chromium
 
       - name: Build PDF
-        run: uv run build_pdf.py --html input.html --output dist/input.pdf --keep-artifacts
+        run: uv run build_pdf.py --html input.html --output dist/input.pdf
 
       - name: Upload PDF artifact
         id: upload
