@@ -1,0 +1,11 @@
+.build_pdf/
+.venv/
+__pycache__/
+dist/
+*.pdf
+article.typ
+long_screenshot.png
+slices/
+a.jsonl
+916f51e8-fb53-49d1-bb3d-8bc1e60d5655.html
+pipeline.js

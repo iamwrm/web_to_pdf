@@ -1,0 +1,35 @@
+name: build-pdf
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4
+
+      - name: Install Chromium for Playwright
+        run: uv run --with playwright python -m playwright install --with-deps chromium
+
+      - name: Build PDF
+        run: uv run build_pdf.py --html input.html --output dist/input.pdf --keep-artifacts
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf
+          path: dist/input.pdf
+          if-no-files-found: error
