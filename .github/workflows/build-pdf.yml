@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      actions: read
 
     steps:
       - name: Checkout
@@ -28,8 +29,18 @@ jobs:
         run: uv run build_pdf.py --html input.html --output dist/input.pdf --keep-artifacts
 
       - name: Upload PDF artifact
-        uses: actions/upload-artifact@v4
+        id: upload
+        uses: actions/upload-artifact@v7
         with:
-          name: pdf
           path: dist/input.pdf
+          archive: false
           if-no-files-found: error
+
+      - name: Add PDF link to job summary
+        run: |
+          {
+            echo "## PDF artifact"
+            echo
+            echo "- [Open PDF](${{ steps.upload.outputs.artifact-url }})"
+            echo "- Artifact ID: \\`${{ steps.upload.outputs.artifact-id }}\\`"
+          } >> "$GITHUB_STEP_SUMMARY"

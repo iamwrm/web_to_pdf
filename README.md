@@ -34,4 +34,6 @@ Output:
 
 ## GitHub Actions
 
-This repo includes a workflow that builds `input.html` and uploads the resulting PDF as an artifact.
+This repo includes a workflow that builds `input.html` and uploads the resulting PDF as a direct-upload artifact (`actions/upload-artifact@v7` with `archive: false`).
+
+That lets GitHub expose the uploaded PDF file directly, and the workflow adds an `Open PDF` link to the job summary.
